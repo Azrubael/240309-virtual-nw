@@ -4,9 +4,11 @@ import re
 from datetime import datetime
 from tabulate import tabulate
 
+"""This script provides diagnostics of a deployed computer network and displays the final information in tabular form."""
+
 
 def save_pretty(pretty_data, file_path, file_ext='txt'):
-    """Write data in text format to hard drive"""
+    """Write data in text format to hard drive."""
     ms = str(round(datetime.now().timestamp() * 1e4))
     save_path = 'reports/' + file_path + '_' + ms[3:12] + '.' + file_ext
     try:
@@ -18,22 +20,22 @@ def save_pretty(pretty_data, file_path, file_ext='txt'):
 
 
 def vagrant_vms_list():
-    """Getting a list of virtual machines"""
+    """Getting a list of virtual machines."""
     stream = os.popen("vagrant status | grep '(virtualbox)'").read()
     vagrant_env = stream.strip('\n').split('\n')
     return [vm.split()[0] for vm in vagrant_env]
 
 
 def vagrant_dumps(statuses):
-    """Convert a JSON to a string"""
+    """Convert a JSON to a string."""
     res = ''
     for i in statuses:
-        res = str(i) + '\n' + json.dumps(statuses[i], indent=2)
+        res += str(i) + '\n' + json.dumps(statuses[i], indent=2)
     return res
 
 
 def vms_hostnamectl(vms_list):
-    """Collecting hostnamectl information for each virtual machine"""
+    """Collecting hostnamectl information for each virtual machine."""
     hostnamectl = {}
     for vm in vms_list:
         hostnamectl[vm] = {}
@@ -56,7 +58,7 @@ def vms_hostnamectl(vms_list):
 
 
 def vms_status(vms_list):
-    """Collect detailed network configuration for running virtual machines"""
+    """Collect detailed network configuration for running virtual machines."""
     status = {}
     for vm in vms_list:
         vm_hostname = (os.popen(f'vagrant ssh {vm} -c hostname').read()).strip('\n')
@@ -67,7 +69,7 @@ def vms_status(vms_list):
 
 
 def total_json(hostnamectl_list, statuses_json):
-    """Processing diagnostic information for output"""
+    """Processing diagnostic information for output."""
     result = []
     for key in hostnamectl_list.keys():
         host = {}
@@ -97,7 +99,7 @@ def total_json(hostnamectl_list, statuses_json):
 
 
 def tab_gen(json_data):
-    """Processing collected data to format as a table"""
+    """Processing collected data to format as a table."""
     res = json_data.copy()
     for vm in res:
         for el in ['Interface', 'IP Address', 'MAC Adderess']:

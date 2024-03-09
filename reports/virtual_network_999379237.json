@@ -62,8 +62,8 @@ client2
         "scope": "global",
         "dynamic": true,
         "label": "enp0s3",
-        "valid_life_time": 79029,
-        "preferred_life_time": 79029
+        "valid_life_time": 79256,
+        "preferred_life_time": 79256
       },
       {
         "family": "inet6",
