@@ -1,7 +1,7 @@
-# 2024-03-09  14:24
-===================
+2024-03-09  14:24
+=================
 
-# The goal of this project is to train in deploying and diagnosing a private virtual network with three virtual machines. Each virtual machine has a unique operating system. A Python script is provided to diagnose the state of the virtual network
+The goal of this project is to train in deploying and diagnosing a private virtual network with three virtual machines. Each virtual machine has a unique operating system. A Python scripts are provided to diagnose the state of the virtual network, they differ in the output data display format.
 
 
 [1] - To run the project you need installed VirtualBOX 6.1 or above and Vagrant 2.4 on Ubuntu 20.04 or newer.

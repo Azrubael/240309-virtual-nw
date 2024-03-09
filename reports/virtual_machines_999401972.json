@@ -1,0 +1,13 @@
+Client_2
+{
+  "Static hostname": "client2",
+  "Icon name": "computer-vm",
+  "Chassis": "vm",
+  "Machine ID": "4576db24f9c64795a5c307b72f770401",
+  "Boot ID": "02777bb147ea4bcba81d690b4879f545",
+  "Virtualization": "oracle",
+  "Operating System": "Ubuntu 20.04.3 LTS",
+  "Kernel": "Linux 5.4.0-42-generic",
+  "Architecture": "x86-64",
+  "Default Gateway": "via 10.0.2.2 dev enp0s3"
+}
