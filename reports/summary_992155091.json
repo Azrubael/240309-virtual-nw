@@ -1,0 +1,26 @@
+[
+  {
+    "Device": "Server_1",
+    "Hostname": "server1",
+    "Operating System": "Ubuntu 18.04.6 LTS",
+    "Default Gateway": "via 192.168.1.1 dev enp0s3",
+    "IP Addresses": "\n\tlo => 127.0.0.1/8\n\tenp0s3 => 192.168.1.204/24\n\tenp0s8 => 192.168.1.204/24\n\tenp0s9 => 10.8.0.11/24\n\tenp0s10 => 10.9.0.11/24",
+    "MAC Adderesses": "\n\tMAC lo => 00:00:00:00:00:00\n\tMAC enp0s3 => 02:3b:7b:b7:3b:2d\n\tMAC enp0s8 => 08:00:27:8d:ec:94\n\tMAC enp0s9 => 08:00:27:07:21:d3\n\tMAC enp0s10 => 08:00:27:ca:90:e8"
+  },
+  {
+    "Device": "Client_1",
+    "Hostname": "client1",
+    "Operating System": "CentOS Linux 8",
+    "Default Gateway": "via 10.0.2.2 dev eth0",
+    "IP Addresses": "\n\tlo => 127.0.0.1/8\n\teth0 => 10.0.2.15/24\n\teth1 => 10.8.0.12/24\n\teth2 => 10.7.0.12/24",
+    "MAC Adderesses": "\n\tMAC lo => 00:00:00:00:00:00\n\tMAC eth0 => 08:00:27:b7:f6:78\n\tMAC eth1 => 08:00:27:69:06:44\n\tMAC eth2 => 08:00:27:22:71:35"
+  },
+  {
+    "Device": "Client_2",
+    "Hostname": "client2",
+    "Operating System": "Ubuntu 20.04.3 LTS",
+    "Default Gateway": "via 10.0.2.2 dev enp0s3",
+    "IP Addresses": "\n\tlo => 127.0.0.1/8\n\tenp0s3 => 10.0.2.15/24\n\tenp0s8 => 10.9.0.13/24\n\tenp0s9 => 10.7.0.13/24",
+    "MAC Adderesses": "\n\tMAC lo => 00:00:00:00:00:00\n\tMAC enp0s3 => 08:00:27:62:67:d4\n\tMAC enp0s8 => 08:00:27:0f:2a:63\n\tMAC enp0s9 => 08:00:27:ea:b0:a2"
+  }
+]
