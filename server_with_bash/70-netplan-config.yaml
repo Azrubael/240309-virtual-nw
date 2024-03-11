@@ -1,0 +1,21 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    enp0s3:
+      addresses:
+        - 192.168.1.105/24
+      gateway4: 192.168.1.1
+      dhcp4: yes
+      nameservers:
+        addresses:
+          - 8.8.8.8
+          - 8.8.4.4
+    enp0s9:
+      addresses:
+        - 10.0.1.11/24
+    enp0s10:
+      addresses:
+        - 10.0.3.11/24
+
+# netplan config for Server_1 with Ubuntu18.04
