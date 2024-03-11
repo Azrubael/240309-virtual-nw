@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt makecache
+sudo apt update
 sudo apt install dnsutils -y
 sudo apt install traceroute -y
 sudo apt install mc -y
@@ -10,14 +10,14 @@ sudo apt install mc -y
 sudo apt install -y isc-dhcp-server
 
 cat <<DHCPD | sudo tee /etc/dhcp/dhcpd.conf
-subnet 10.8.0.0 netmask 255.255.255.0 {
-  range 10.8.0.2 10.8.0.100;
-  option routers 10.8.0.1;
+subnet 10.0.1.0 netmask 255.255.255.0 {
+  range 10.0.1.2 10.0.1.50;
+  option routers 10.0.1.1;
   option domain-name-servers 8.8.8.8, 8.8.4.4;
 }
-subnet 10.9.0.0 netmask 255.255.255.0 {
-  range 10.9.0.2 10.9.0.100;
-  option routers 10.9.0.1;
+subnet 10.0.3.0 netmask 255.255.255.0 {
+  range 10.0.3.2 10.0.3.50;
+  option routers 10.0.3.1;
   option domain-name-servers 8.8.8.8, 8.8.4.4;
 }
 DHCPD
@@ -36,10 +36,10 @@ sudo rm /etc/netplan/50-vagrant.yaml
 sudo cp /tmp/70-netplan-config.yaml /etc/netplan/70-netplan-config.yaml && sudo netplan apply
 
 # Client's network aliases declaration
-if [[ -z "$(grep '10.8.0.12  client1' /etc/hosts)" ]] && \
-   [[ -z "$(grep '10.9.0.13  client2' /etc/hosts)" ]]; then
+if [[ -z "$(grep '10.0.1.12  client1' /etc/hosts)" ]] && \
+   [[ -z "$(grep '10.0.3.13  client2' /etc/hosts)" ]]; then
 sudo echo "## vagrant-hostmanager-start
-10.8.0.12  client1
-10.9.0.13  client2
+10.0.1.12  client1
+10.0.3.13  client2
 ## vagrant-hostmanager-end" >> /etc/hosts
 fi

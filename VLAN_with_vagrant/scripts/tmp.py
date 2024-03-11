@@ -2,18 +2,19 @@ import json
 import os
 import re
 from datetime import datetime
+from tabulate import tabulate
 
 
-def save_json(json_data, file_path):
-    """Write data in JSON format to hard drive"""
+def save_pretty(pretty_data, file_path, file_ext='txt'):
+    """Write data in text format to hard drive"""
     ms = str(round(datetime.now().timestamp() * 1e4))
-    save_path = 'reports/' + file_path + '_' + ms[3:12] + '.json'
-    print('Path to the result file:', save_path)
+    save_path = 'reports/' + file_path + '_' + ms[3:12] + '.' + file_ext
     try:
         with open(save_path, 'w') as f:
-            json.dump(json_data, f, indent=2)
+            f.write(pretty_data)
     except:
         print(f'File {file_path} writing error.')
+    print('Data written to a file:', save_path)
 
 
 def vagrant_vms_list():
@@ -24,10 +25,11 @@ def vagrant_vms_list():
 
 
 def vagrant_dumps(statuses):
-    """Display detailed information about virtual machines"""
+    """Convert a JSON to a string"""
+    res = ''
     for i in statuses:
-        print(i)
-        print(json.dumps(statuses[i], indent=2))
+        res = str(i) + '\n' + json.dumps(statuses[i], indent=2)
+    return res
 
 
 def vms_hostnamectl(vms_list):
@@ -64,13 +66,6 @@ def vms_status(vms_list):
     return status
 
 
-def list2str(processed_list):
-    txt = ''
-    for el in processed_list:
-        txt += f'\n\t{list(el.keys())[0]} => {list(el.values())[0]}'
-    return txt
-
-
 def total_json(hostnamectl_list, statuses_json):
     """Processing diagnostic information for output"""
     result = []
@@ -82,26 +77,38 @@ def total_json(hostnamectl_list, statuses_json):
         ip_list = statuses_json[host['Hostname']]
         ip_addr = []
         mac_addr = []
+        interfaces = []
         for el in ip_list:
             ip_data = {}
             mac_data = {}
+            interface = {}
+            interface[el['ifname']] = el['addr_info'][0]['label']
             ip_data[el['ifname']] = f"{el['addr_info'][0]['local']}/{el['addr_info'][0]['prefixlen']}"
             mac_data['MAC ' + el['ifname']] = el['address']
+            interfaces.append(interface)
             ip_addr.append(ip_data)
             mac_addr.append(mac_data)
         host['Default Gateway'] = hostnamectl_list[key]['Default Gateway']
-        host['IP Addresses'] = ip_addr
-        host['MAC Adderesses'] = mac_addr
+        host['Interface'] = interfaces
+        host['IP Address'] = ip_addr
+        host['MAC Adderess'] = mac_addr
         result.append(host)
     return result
 
 
 def tab_gen(json_data):
+    """Processing collected data to format as a table"""
     res = json_data.copy()
     for vm in res:
-        for el in ['IP Addresses', 'MAC Adderesses']:
-            vm[el] = list2str(vm[el])
+        for el in ['Interface', 'IP Address', 'MAC Adderess']:
+            txt = ''
+            for ip in vm[el]:
+                item = str(list(ip.values())[0])
+                if len(item) < 5: txt += f'  {item}  '
+                else: txt += f'{item}\n'
+            vm[el] = txt
     return res
+
 
 
 vms_list = vagrant_vms_list()
@@ -109,20 +116,14 @@ hostnamectl_json = vms_hostnamectl(vms_list)
 statuses_json = vms_status(vms_list)
 out = total_json(hostnamectl_json, statuses_json)
 
-'''
-# Display information in JSON format
-vagrant_dumps(statuses_json)
-vagrant_dumps(hostnamectl_json)
-[ print(json.dumps(el, indent=2)) for el in out ]
-'''
+result = tab_gen(out)
+pretty_data = tabulate(result, headers="keys", tablefmt="grid", \
+                       maxcolwidths=[20,20,32,32,7,20,32])
+print('\nDiagnostic information about the data of a virtual computer network running on the Virtualbox platform:\n')
+print(pretty_data)
 
-# Display summary table
-result_list = tab_gen(out)
-for vm in result_list:
-    for key,val in vm.items():
-        print("{} : {}".format(key, val))
-    print()
+save_pretty(vagrant_dumps(hostnamectl_json), 'virtual_machines', 'json')
+save_pretty(vagrant_dumps(statuses_json), 'virtual_network', 'json')
+save_pretty(pretty_data, 'summary_table')
 
-save_json(statuses_json, 'virtual_network')
-save_json(hostnamectl_json, 'virtual_machines')
-save_json(result_list, 'summary')
+ 

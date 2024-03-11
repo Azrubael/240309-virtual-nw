@@ -1,0 +1,22 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    enp0s8:
+      addresses:
+        - 10.0.3.13/24
+      gateway4: 10.0.3.11
+      dhcp4: no
+      nameservers:
+        addresses:
+          - 8.8.8.8
+          - 8.8.4.4
+    enp0s9:
+      addresses:
+        - 10.0.5.3/24
+      routes:
+        - to: 10.0.3.0/24
+          via: 10.0.5.2 
+          metric: 50
+
+# netplan config for Client_2 with Ubuntu20.04
