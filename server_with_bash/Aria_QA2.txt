@@ -1,0 +1,24 @@
+# 2024-03-12    14:20
+=====================
+
+*Question1*
+======================================================================
+What is the difference of the two bash commands in CentOS:
+mcli con mod eth1 ipv4.addresses 10.0.1.0/24 ipv4.gateway 10.0.1.2
+nmcli con mod eth1 ipv4.routes “10.0.1.0/24 10.0.1.2”
+
+*Answer1*
+======================================================================
+The two `nmcli` commands in CentOS you provided have different purposes:
+
+1. `nmcli con mod eth1 ipv4.addresses 10.0.1.0/24 ipv4.gateway 10.0.1.2`
+   - This command is used to modify the IPv4 addresses and gateway for the network connection named "eth1". It sets the IPv4 address to "10.0.1.0" with a subnet mask of "/24" and the gateway to "10.0.1.2".
+
+2. `nmcli con mod "System eth1" ipv4.routes "10.0.1.0/24 10.0.1.10"`
+   - This command is used to modify the IPv4 routing table for the network connection named "eth1". It adds a route for the network "10.0.1.0/24" via the gateway "10.0.1.2".
+
+In summary:
+- The first command (`ipv4.addresses` and `ipv4.gateway`) is used to set the IP address and gateway for the network connection.
+- The second command (`ipv4.routes`) is used to add a specific route to the routing table for the network connection.
+
+Both commands are used to manage different aspects of network configuration, with the first command focusing on the IP address and gateway settings, and the second command focusing on the routing table.
