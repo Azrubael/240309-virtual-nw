@@ -1,6 +1,7 @@
 #!/bin/bash
 
 sudo apt update
+sudo apt install iptables-persistent -y
 sudo apt install dnsutils -y
 sudo apt install traceroute -y
 sudo apt install mc -y

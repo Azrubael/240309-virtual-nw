@@ -1,0 +1,39 @@
+Created: 2024-03-13 10:12
+Server_1
+{
+  "Static hostname": "server1",
+  "Icon name": "computer-vm",
+  "Chassis": "vm",
+  "Machine ID": "98374bc59bd045ad894d4ec8d0e3d03e",
+  "Boot ID": "a302a415ee394952ac9d81f7c96b2c33",
+  "Virtualization": "oracle",
+  "Operating System": "Ubuntu 18.04.6 LTS",
+  "Kernel": "Linux 4.15.0-212-generic",
+  "Architecture": "x86-64",
+  "Default Gateway": "via 192.168.1.1 dev enp0s8"
+}Client_1
+{
+  "Static hostname": "client1",
+  "Icon name": "computer-vm",
+  "Chassis": "vm",
+  "Machine ID": "244d1b1efaae483bb235095b81b0f22f",
+  "Boot ID": "9c2e84cfa9644dabae2e24406b7594ca",
+  "Virtualization": "oracle",
+  "Operating System": "CentOS Linux 8",
+  "CPE OS Name": "cpe:/o:centos:centos:8",
+  "Kernel": "Linux 4.18.0-348.7.1.el8_5.x86_64",
+  "Architecture": "x86-64",
+  "Default Gateway": "via 10.0.2.2 dev eth0"
+}Client_2
+{
+  "Static hostname": "client2",
+  "Icon name": "computer-vm",
+  "Chassis": "vm",
+  "Machine ID": "4f437984ccf54e92a1f3dda1e609f732",
+  "Boot ID": "f8b86b81a5084c489541c7103d0d1b40",
+  "Virtualization": "oracle",
+  "Operating System": "Ubuntu 20.04.3 LTS",
+  "Kernel": "Linux 5.4.0-42-generic",
+  "Architecture": "x86-64",
+  "Default Gateway": "via 10.0.2.2 dev enp0s3"
+}
