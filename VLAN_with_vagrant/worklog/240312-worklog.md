@@ -13,27 +13,25 @@
 $ python3 scripts/pretty_config_collect_time.py
 Data written to a file: reports/summary_table_024702792.txt
 
-Created: 2024-03-12 14:37
-Diagnostic information about the data of a virtual computer network running on the Virtualbox platform:
-
+Created: 2024-03-12 19:03
 +----------+------------+--------------------+----------------------------+-------------+------------------+-------------------+
 | Device   | Hostname   | Operating System   | Default Gateway            | Interface   | IP Address       | MAC Adderess      |
 +==========+============+====================+============================+=============+==================+===================+
 | Server_1 | server1    | Ubuntu 18.04.6 LTS | via 192.168.1.1 dev enp0s8 | lo          | 127.0.0.1/8      | 00:00:00:00:00:00 |
 |          |            |                    |                            | enp0s3      | 10.0.2.15/24     | 02:3b:7b:b7:3b:2d |
-|          |            |                    |                            | enp0s8      | 192.168.1.105/24 | 08:00:27:5d:d3:ee |
-|          |            |                    |                            | enp0s9      | 10.0.1.2/24      | 08:00:27:94:90:f4 |
-|          |            |                    |                            | enp0s10     | 10.0.3.2/24      | 08:00:27:7f:c2:2f |
+|          |            |                    |                            | enp0s8      | 192.168.1.105/24 | 08:00:27:bf:f1:7b |
+|          |            |                    |                            | enp0s9      | 10.0.1.2/24      | 08:00:27:18:f1:69 |
+|          |            |                    |                            | enp0s10     | 10.0.3.2/24      | 08:00:27:07:90:db |
 +----------+------------+--------------------+----------------------------+-------------+------------------+-------------------+
 | Client_1 | client1    | CentOS Linux 8     | via 10.0.2.2 dev eth0      | lo          | 127.0.0.1/8      | 00:00:00:00:00:00 |
 |          |            |                    |                            | eth0        | 10.0.2.15/24     | 08:00:27:b7:f6:78 |
-|          |            |                    |                            | eth1        | 10.0.1.10/24     | 08:00:27:36:a0:2d |
-|          |            |                    |                            | eth2        | 10.0.5.10/24     | 08:00:27:e9:fd:75 |
+|          |            |                    |                            | eth1        | 10.0.1.10/24     | 08:00:27:0c:4f:20 |
+|          |            |                    |                            | eth2        | 10.0.5.10/24     | 08:00:27:44:55:be |
 +----------+------------+--------------------+----------------------------+-------------+------------------+-------------------+
-| Client_2 | client2    | Ubuntu 20.04.3 LTS | via 10.0.3.1 dev enp0s8    | lo          | 127.0.0.1/8      | 00:00:00:00:00:00 |
+| Client_2 | client2    | Ubuntu 20.04.3 LTS | via 10.0.3.2 dev enp0s8    | lo          | 127.0.0.1/8      | 00:00:00:00:00:00 |
 |          |            |                    |                            | enp0s3      | 10.0.2.15/24     | 08:00:27:62:67:d4 |
-|          |            |                    |                            | enp0s8      | 10.0.3.10/24     | 08:00:27:d4:78:22 |
-|          |            |                    |                            | enp0s9      | 10.0.5.11/24     | 08:00:27:3e:77:d5 |
+|          |            |                    |                            | enp0s8      | 10.0.3.10/24     | 08:00:27:96:d9:c5 |
+|          |            |                    |                            | enp0s9      | 10.0.5.11/24     | 08:00:27:20:d5:e3 |
 +----------+------------+--------------------+----------------------------+-------------+------------------+-------------------+
 
     $ vagrant ssh Server_1
@@ -135,3 +133,91 @@ traceroute to 192.168.1.1 (192.168.1.1), 30 hops max, 60 byte packets
  2  _gateway (192.168.1.1)  30.153 ms  29.825 ms  29.937 ms
 [root@client1 ~]# 
 
+
+
+# *SSH*
+==================================================================
+# 2024-02-12  17:36
+
+# to restart SSH after changing '/etc/ssh/sshd_config' on Ubuntu
+sudo systemctl restart ssh[d]
+vagrant@client2:~$ ssh-keygen -t rsa -b 4096 -f /home/vagrant/.ssh/c2_key -N ""
+vagrant@client2:~$ ssh-copy-id -i /home/vagrant/.ssh/c2_key.pub vagrant@server1
+vagrant@client2:~$ ssh-copy-id -i /home/vagrant/.ssh/c2_key.pub vagrant@client1
+vagrant@client2:~$ ssh -i /home/vagrant/.ssh/c2_key vagrant@server1
+vagrant@client2:~$ ssh -i /home/vagrant/.ssh/c2_key vagrant@client1
+
+[vagrant@client1 ~]$ ssh-keygen -t rsa -b 4096 -f /home/vagrant/.ssh/c1_key -N ""
+[vagrant@client1 ~]$ sudo ssh-copy-id -i /home/vagrant/.ssh/c1_key.pub vagrant@server1
+[vagrant@client1 ~]$ sudo ssh-copy-id -i /home/vagrant/.ssh/c1_key.pub vagrant@client1
+[vagrant@client1 ~]$ ssh -i /home/vagrant/.ssh/c1_key vagrant@server1
+[vagrant@client1 ~]$ ssh -i /home/vagrant/.ssh/c1_key vagrant@client2
+
+
+vagrant@client2:~$ vim /etc/netplan/72-netplan-config.yaml
+---
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    enp0s8:
+      addresses:
+        - 10.0.3.10/24
+      dhcp4: yes
+    enp0s9:
+      addresses:
+        - 10.0.5.11/24
+
+# netplan config for Client_2 with Ubuntu20.04
+
+
+vagrant@client2:~$ sudo netplan apply
+
+$ python3 scripts/pretty_config_collect_time.py
+Data written to a file: reports/summary_table_026467255.txt
+
+Created: 2024-03-12 19:31
+Diagnostic information about the data of a virtual computer network running on the Virtualbox platform:
+
++----------+------------+--------------------+----------------------------+-------------+------------------+-------------------+
+| Device   | Hostname   | Operating System   | Default Gateway            | Interface   | IP Address       | MAC Adderess      |
++==========+============+====================+============================+=============+==================+===================+
+| Server_1 | server1    | Ubuntu 18.04.6 LTS | via 192.168.1.1 dev enp0s8 | lo          | 127.0.0.1/8      | 00:00:00:00:00:00 |
+|          |            |                    |                            | enp0s3      | 10.0.2.15/24     | 02:3b:7b:b7:3b:2d |
+|          |            |                    |                            | enp0s8      | 192.168.1.105/24 | 08:00:27:bf:f1:7b |
+|          |            |                    |                            | enp0s9      | 10.0.1.2/24      | 08:00:27:18:f1:69 |
+|          |            |                    |                            | enp0s10     | 10.0.3.2/24      | 08:00:27:07:90:db |
++----------+------------+--------------------+----------------------------+-------------+------------------+-------------------+
+| Client_1 | client1    | CentOS Linux 8     | via 10.0.2.2 dev eth0      | lo          | 127.0.0.1/8      | 00:00:00:00:00:00 |
+|          |            |                    |                            | eth0        | 10.0.2.15/24     | 08:00:27:b7:f6:78 |
+|          |            |                    |                            | eth1        | 10.0.1.10/24     | 08:00:27:0c:4f:20 |
+|          |            |                    |                            | eth2        | 10.0.5.10/24     | 08:00:27:44:55:be |
++----------+------------+--------------------+----------------------------+-------------+------------------+-------------------+
+| Client_2 | client2    | Ubuntu 20.04.3 LTS | via 10.0.2.2 dev enp0s3    | lo          | 127.0.0.1/8      | 00:00:00:00:00:00 |
+|          |            |                    |                            | enp0s3      | 10.0.2.15/24     | 08:00:27:62:67:d4 |
+|          |            |                    |                            | enp0s8      | 10.0.3.10/24     | 08:00:27:96:d9:c5 |
+|          |            |                    |                            | enp0s9      | 10.0.5.11/24     | 08:00:27:20:d5:e3 |
++----------+------------+--------------------+----------------------------+-------------+------------------+-------------------+
+
+
+# Проверка работы SSH на Client_2
+
+agrant@client2:~$ ssh -i /home/vagrant/.ssh/c2_key vagrant@client1
+Last login: Tue Mar 12 17:31:05 2024 from 10.0.2.2
+[vagrant@client1 ~]$ exit
+logout
+Connection to client1 closed.
+vagrant@client2:~$ ssh -i /home/vagrant/.ssh/c2_key vagrant@server1
+Welcome to Ubuntu 18.04.6 LTS (GNU/Linux 4.15.0-212-generic x86_64)
+  System information as of Tue Mar 12 17:34:55 UTC 2024
+  System load:  0.01              Users logged in:        0
+  Usage of /:   3.4% of 38.70GB   IP address for enp0s3:  10.0.2.15
+  Memory usage: 24%               IP address for enp0s8:  192.168.1.105
+  Swap usage:   0%                IP address for enp0s9:  10.0.1.2
+  Processes:    89                IP address for enp0s10: 10.0.3.2
+Last login: Tue Mar 12 17:30:58 2024 from 10.0.2.2
+vagrant@server1:~$ exit
+logout
+Connection to server1 closed.
+vagrant@client2:~$ exit
+logout

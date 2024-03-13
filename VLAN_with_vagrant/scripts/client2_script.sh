@@ -6,8 +6,6 @@ sudo apt install net-tools -y
 sudo apt install traceroute -y
 sudo apt install mc -y
 
-# sudo ip route add default via 10.0.3.2 dev enp0s8
-
 sudo rm /etc/netplan/50-vagrant.yaml
 sudo cp /tmp/72-netplan-config.yaml /etc/netplan/72-netplan-config.yaml && sudo netplan apply
 

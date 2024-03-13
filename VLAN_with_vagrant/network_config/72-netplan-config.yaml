@@ -5,17 +5,9 @@ network:
     enp0s8:
       addresses:
         - 10.0.3.10/24
-      gateway4: 10.0.3.2
-      nameservers:
-        addresses:
-          - 8.8.8.8
-          - 8.8.4.4
+      dhcp4: yes
     enp0s9:
       addresses:
         - 10.0.5.11/24
-      routes:
-        - to: 10.0.1.0/24
-          via: 10.0.5.10 
-          metric: 50
 
 # netplan config for Client_2 with Ubuntu20.04
